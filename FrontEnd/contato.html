@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doce de Leite Caseiro</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+/* ESTILOS DO SITE ORIGINAL */
+header {
+    background: #8B4513;
+    color: white;
+    padding: 1rem 0;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.menu {
+    display: flex;
+    gap: 2rem;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.menu a:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.menu a[href*="wa.me"] {
+    background: #25d366 !important;
+    color: white !important;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.hero {
+    background: linear-gradient(rgba(139,69,19,0.9), rgba(210,105,30,0.9));
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 0 2rem;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    background: #D2691E;
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    display: inline-block;
+}
+
+.produtos {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.produtos h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #8B4513;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    background: #f5deb3;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.card h3 {
+    color: #8B4513;
+    margin-bottom: 1rem;
+}
+
+.card button {
+    background: #8B4513;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+footer {
+    background: #8B4513;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* === CAIXINHA WHATSAPP FLUTUANTE === */
+.whatsapp-float {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.4);
+}
+
+.whatsapp-float .whatsapp-icon {
+    margin-top: 16px;
+    display: block;
+}
+
+.whatsapp-float.active .whatsapp-icon {
+    display: none;
+}
+
+.whatsapp-float.active .close-icon {
+    display: block;
+    margin-top: 16px;
+    font-size: 25px;
+}
+
+.close-icon {
+    display: none;
+}
+
+/* BALÃO DE MENSAGEM WHATSAPP */
+.whatsapp-balloon {
+    position: fixed;
+    bottom: 110px;
+    right: 30px;
+    width: 300px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 1001;
+    overflow: hidden;
+    animation: slideUp 0.3s ease-out;
+}
+
+.whatsapp-balloon.active {
+    display: block;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.whatsapp-header {
+    background: #25d366;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.whatsapp-content {
+    padding: 20px;
+}
+
+.whatsapp-content p {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.whatsapp-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.whatsapp-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-pedir {
+    background: #25d366;
+    color: white;
+}
+
+.btn-pedir:hover {
+    background: #128c7e;
+}
+
+.btn-fechar {
+    background: #ddd;
+    color: #333;
+}
+
+.btn-fechar:hover {
+    background: #ccc;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .whatsapp-balloon {
+        width: 90%;
+        right: 15px;
+        bottom: 110px;
+    }
+    
+    .whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .menu {
+        gap: 1rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">Doce de Leite </div>
+        <div class="menu">
+            <a href="#">Início</a>
+            <a href="#">Produtos</a>
+            <a href="#">Sobre</a>
+            <!-- 👇 LINK WHATSAPP NO CONTATO -->
+            <a href="https://wa.me/5511999999999?text=Oi!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Doce%20de%20Leite%20Caseiro%20😋" target="_blank">
+                📱 Contato
+            </a>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Doce de Leite</h1>
+        <h2>Caseiro</h2>
+        <p>Sabor premium direto da tradição</p>
+        <a href="#" class="btn">Comprar Agora</a>
+    </div>
+</section>
+
+<section class="produtos">
+    <h2>Nossos Produtos</h2>
+
+    <div class="cards">
+        <div class="card">
+            <img src="">
+            <h3>Tradicional</h3>
+            <p>Pote 500g artesanal</p>
+            <button onclick="abrirWhatsapp('Tradicional')">Pedir no WhatsApp</button>
+        </div>
+
+        <div class="card">
+            <img src="">
+            <h3>Premium</h3>
+            <p>Receita especial</p>
+            <button onclick="abrirWhatsapp('Premium')">Pedir no WhatsApp</button>
+        </div>
+
+        <div class="card">
+            <img src="">
+            <h3>Combo</h3>
+            <p>3 potes promocionais</p>
+            <button onclick="abrirWhatsapp('Combo')">Pedir no WhatsApp</button>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2026 Doce de Leite Premium - 
+</footer>
+
+<!-- === CAIXINHA WHATSAPP FLUTUANTE === -->
+<div class="whatsapp-float" onclick="toggleWhatsapp()">
+    <span class="whatsapp-icon">📱</span>
+    <span class="close-icon">✕</span>
+</div>
+
+<div class="whatsapp-balloon" id="whatsappBalloon">
+    <div class="whatsapp-header">
+        <span>💬 WhatsApp</span>
+    </div>
+    <div class="whatsapp-content">
+        <p>Oi! 😊 Quer pedir nosso delicioso <strong>Doce de Leite Caseiro?</strong></p>
+        <p>Escolha seu produto favorito:</p>
+        <div class="whatsapp-buttons">
+            <button class="whatsapp-btn btn-pedir" onclick="pedirWhatsapp('Tradicional')">🥛 Tradicional</button>
+            <button class="whatsapp-btn btn-pedir" onclick="pedirWhatsapp('Premium')">⭐ Premium</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="whatsapp-btn btn-pedir" onclick="pedirWhatsapp('Combo')" style="width: 100%;">🎁 Combo Família</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// 👈 SEU NÚMERO AQUI (com código do país, sem espaços ou traços)
+const NUMERO_WHATSAPP = "5511999999999"; 
+
+function toggleWhatsapp() {
+    const balloon = document.getElementById('whatsappBalloon');
+    const float = document.querySelector('.whatsapp-float');
+    
+    balloon.classList.toggle('active');
+    float.classList.toggle('active');
+}
+
+function abrirWhatsapp(produto) {
+    pedirWhatsapp(produto);
+}
+
+function pedirWhatsapp(produto) {
+    const mensagem = `Olá! 😋 Quero pedir: *${produto}*\n\nQual a disponibilidade? 📦`;
+    const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+    
+    // Fecha o balão
+    document.getElementById('whatsappBalloon').classList.remove('active');
+    document.querySelector('.whatsapp-float').classList.remove('active');
+}
+
+// Fecha balão clicando fora
+document.addEventListener('click', function(e) {
+    const balloon = document.getElementById('whatsappBalloon');
+    const float = document.querySelector('.whatsapp-float');
+    
+    if (!balloon.contains(e.target) && !float.contains(e.target)) {
+        balloon.classList.remove('active');
+        float.classList.remove('active');
+    }
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+background:url('https://images.unsplash.com/photo-1606313564200-e75d5e30476c') center/cover no-repeat;
